@@ -18,6 +18,7 @@ import mongoose from 'mongoose';
   ],
   controllers: [],
   providers: [],
+  exports: [],
 })
 export class AppModule {
   private readonly isDev: boolean = process.env.NODE_ENV === 'development';
