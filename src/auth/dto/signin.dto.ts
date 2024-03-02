@@ -1,5 +1,4 @@
-export interface SignupDto {
-  nickname: string;
+export interface SigninDto {
   apiKey: string;
   password: string;
   email: string;

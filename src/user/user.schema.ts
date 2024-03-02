@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { Time } from 'src/time/time.schema';
 
 @Schema()
@@ -9,6 +9,11 @@ export class User extends Document {
   @IsNotEmpty()
   @IsString()
   nickname: string;
+
+  @Prop({ required: true, unique: true })
+  @IsNotEmpty()
+  @IsString()
+  email: string;
 
   @Prop({ required: true, unique: true })
   @IsNotEmpty()
@@ -25,3 +30,4 @@ export class User extends Document {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+export type UserDocument = User & Document;
