@@ -16,13 +16,13 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/signup')
-  signUp(@Body(ValidationPipe) signupDto: SignupDto) {
-    console.log(signupDto);
+  signup(@Body(ValidationPipe) signupDto: SignupDto) {
+    return this.authService.signup(signupDto);
   }
 
   @Post('/signin')
-  async signIn(@Body(ValidationPipe) body: SigninDto, @Res() res: Response) {
-    const user = await this.authService.signIn(body);
+  async signin(@Body(ValidationPipe) body: SigninDto, @Res() res: Response) {
+    const user = await this.authService.signin(body);
     if (user) {
       return res.status(HttpStatus.OK).json(user);
     } else {
