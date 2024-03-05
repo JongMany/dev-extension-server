@@ -6,6 +6,7 @@ import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 import { RefreshRequestDto } from 'src/auth/dto/refresh.dto';
+import { CheckDuplicate } from 'src/auth/dto/checkDuplicate.dto';
 
 @Injectable()
 export class AuthService {
@@ -34,12 +35,20 @@ export class AuthService {
       throw new UnauthorizedException('Login Failed');
     }
   }
+  async checkDuplicate(input: CheckDuplicate) {
+    const isDuplicate = await this.userRepository.checkDuplicate(input);
+    if (isDuplicate) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   // accessToken 발급
   getAccessToken(signinDto: RefreshRequestDto) {
     const { email } = signinDto;
     const payload = { id: email };
-    console.log('payload', payload);
+    // console.log('payload', payload);
     return this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
       expiresIn: '1m',

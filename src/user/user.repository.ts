@@ -9,6 +9,7 @@ import { FindUserDto } from 'src/auth/dto/findUser.dto';
 import { SignupDto } from 'src/auth/dto/signup.dto';
 import { User, UserDocument } from 'src/user/user.schema';
 import * as bcrypt from 'bcryptjs';
+import { CheckDuplicate } from 'src/auth/dto/checkDuplicate.dto';
 
 @Injectable()
 export class UserRepository {
@@ -21,6 +22,16 @@ export class UserRepository {
     const { email, apiKey } = findUserDto;
     const user = await this.userModel.findOne({ email, apiKey });
     return user;
+  }
+
+  async checkDuplicate(input: CheckDuplicate) {
+    const user = await this.userModel.findOne(input);
+    console.log(user, input);
+    if (user) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   async findUserByEmail(email: string) {

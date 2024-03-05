@@ -10,6 +10,11 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 import { AuthService } from 'src/auth/auth.service';
+import {
+  CheckApiKeyDuplicateDto,
+  CheckEmailDuplicateDto,
+  CheckNicknameDuplicateDto,
+} from 'src/auth/dto/checkDuplicate.dto';
 import { RefreshRequestDto } from 'src/auth/dto/refresh.dto';
 import { SigninDto } from 'src/auth/dto/signin.dto';
 import { SignupDto } from 'src/auth/dto/signup.dto';
@@ -38,6 +43,67 @@ export class AuthController {
       }
     } catch (error) {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error);
+    }
+  }
+
+  @Post('/duplicate-check/email')
+  async checkDuplicateEmail(
+    @Body(ValidationPipe) checkDuplicateDto: CheckEmailDuplicateDto,
+    @Res() res: Response,
+  ) {
+    const { email } = checkDuplicateDto;
+    const isDuplicate = await this.authService.checkDuplicate({ email });
+    if (isDuplicate) {
+      return res.status(HttpStatus.OK).json({
+        message: 'Already exists user',
+        statusCode: 409,
+      });
+    } else {
+      return res.status(HttpStatus.OK).json({
+        message: 'Available email',
+        statusCode: 200,
+      });
+    }
+  }
+
+  @Post('/duplicate-check/nickname')
+  async checkDuplicateNickname(
+    @Body(ValidationPipe) checkDuplicateDto: CheckNicknameDuplicateDto,
+    @Res() res: Response,
+  ) {
+    const { nickname } = checkDuplicateDto;
+    const isDuplicate = await this.authService.checkDuplicate({ nickname });
+
+    if (isDuplicate) {
+      return res.status(HttpStatus.OK).json({
+        message: 'Already exists user',
+        statusCode: 409,
+      });
+    } else {
+      return res.status(HttpStatus.OK).json({
+        message: 'Available nickname',
+        statusCode: 200,
+      });
+    }
+  }
+
+  @Post('/duplicate-check/apiKey')
+  async checkDuplicateApiKey(
+    @Body(ValidationPipe) checkDuplicateDto: CheckApiKeyDuplicateDto,
+    @Res() res: Response,
+  ) {
+    const { apiKey } = checkDuplicateDto;
+    const isDuplicate = await this.authService.checkDuplicate({ apiKey });
+    if (isDuplicate) {
+      return res.status(HttpStatus.OK).json({
+        message: 'Already exists user',
+        statusCode: 409,
+      });
+    } else {
+      return res.status(HttpStatus.OK).json({
+        message: 'Available apiKey',
+        statusCode: 200,
+      });
     }
   }
 
