@@ -1,3 +1,4 @@
+// 아직 쓸일은 없는듯?
 import { readFileSync } from 'fs';
 import * as yaml from 'js-yaml';
 import { join } from 'path';

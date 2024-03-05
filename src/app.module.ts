@@ -4,6 +4,7 @@ import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { TimeModule } from './time/time.module';
+import { CommonModule } from './common/common.module';
 import mongoose from 'mongoose';
 
 @Module({
@@ -15,6 +16,7 @@ import mongoose from 'mongoose';
     UserModule,
     AuthModule,
     TimeModule,
+    CommonModule,
   ],
   controllers: [],
   providers: [],

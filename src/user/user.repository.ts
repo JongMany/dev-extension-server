@@ -23,6 +23,14 @@ export class UserRepository {
     return user;
   }
 
+  async findUserByEmail(email: string) {
+    return await this.userModel.findOne({ email });
+  }
+
+  async updateRefreshToken(email: string, refreshToken: string) {
+    return await this.userModel.updateOne({ email }, { refreshToken });
+  }
+
   async createUser(signupDto: SignupDto) {
     const { nickname, email, apiKey, password } = signupDto;
 

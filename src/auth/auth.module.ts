@@ -4,10 +4,11 @@ import { AuthService } from './auth.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User } from 'src/user/user.schema';
 import { UserModule } from 'src/user/user.module';
-import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { JwtAcessStrategy } from 'src/auth/jwt-access.strategy';
+import { JwtRefreshStrategy } from 'src/auth/jwt-refresh.strategy';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { ConfigService } from '@nestjs/config';
   ],
 
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
-  exports: [JwtStrategy, PassportModule],
+  providers: [AuthService, JwtAcessStrategy, JwtRefreshStrategy],
+  exports: [JwtAcessStrategy, JwtRefreshStrategy, PassportModule, AuthService],
 })
 export class AuthModule {}

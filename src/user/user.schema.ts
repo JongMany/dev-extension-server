@@ -25,6 +25,10 @@ export class User extends Document {
   @IsString()
   password: string;
 
+  @Prop()
+  @IsString()
+  refreshToken: string;
+
   @Prop({ type: [Types.ObjectId], ref: Time.name })
   developTime: Time[];
 }
