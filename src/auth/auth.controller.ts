@@ -114,7 +114,7 @@ export class AuthController {
     @Res() res: Response,
   ) {
     // const accessToken = await this.authService.getAccessToken(body);
-    const accessToken = this.authService.getAccessToken(body);
+    const accessToken = await this.authService.getAccessToken(body);
     return res.status(HttpStatus.OK).json({ accessToken });
   }
 }

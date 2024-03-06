@@ -45,14 +45,23 @@ export class AuthService {
   }
 
   // accessToken 발급
-  getAccessToken(signinDto: RefreshRequestDto) {
+  async getAccessToken(signinDto: RefreshRequestDto) {
     const { email } = signinDto;
     const payload = { id: email };
-    // console.log('payload', payload);
-    return this.jwtService.sign(payload, {
+    const accessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
       expiresIn: '1m',
     });
+    const user = await this.userRepository.updateAccessToken(
+      email,
+      accessToken,
+    );
+
+    if (user) {
+      return accessToken;
+    } else {
+      throw new Error();
+    }
   }
 
   // refreshToken 발급

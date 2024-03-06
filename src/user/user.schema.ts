@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Document, Types } from 'mongoose';
+import { Goal } from 'src/goal/goal.schema';
 import { Time } from 'src/time/time.schema';
 
 @Schema()
@@ -27,10 +28,17 @@ export class User extends Document {
 
   @Prop()
   @IsString()
+  accessToken: string;
+
+  @Prop()
+  @IsString()
   refreshToken: string;
 
   @Prop({ type: [Types.ObjectId], ref: Time.name })
   developTime: Time[];
+
+  @Prop({ type: [Types.ObjectId], ref: Goal.name })
+  goal: Goal[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

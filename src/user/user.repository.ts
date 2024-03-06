@@ -33,6 +33,15 @@ export class UserRepository {
       return false;
     }
   }
+  async getAllGoals(email: string) {
+    const user = await this.userModel.findOne({ email });
+    const goals = user.get('goal');
+    return goals;
+  }
+
+  async updateAccessToken(email: string, accessToken: string) {
+    return await this.userModel.updateOne({ email }, { accessToken });
+  }
 
   async findUserByEmail(email: string) {
     return await this.userModel.findOne({ email });

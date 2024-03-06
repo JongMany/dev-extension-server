@@ -16,8 +16,8 @@ export class JwtAcessStrategy extends PassportStrategy(Strategy, 'access') {
   }
 
   async validate(payload: any, done: VerifiedCallback) {
-    console.log('access payload', payload);
     const { id } = payload;
+    console.log('access payload', payload);
     const user: User = await this.userRepository.findUserByEmail(id);
 
     if (!user) {
