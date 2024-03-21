@@ -13,14 +13,14 @@ export class CheckEmailDuplicateDto {
 
 export class CheckNicknameDuplicateDto {
   @IsString()
-  @MinLength(8)
+  @MinLength(4)
   @MaxLength(20)
   nickname: string;
 }
 
 export class CheckApiKeyDuplicateDto {
   @IsString()
-  @MinLength(8)
+  @MinLength(4)
   @MaxLength(20)
   apiKey: string;
 }

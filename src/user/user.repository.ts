@@ -26,14 +26,15 @@ export class UserRepository {
 
   async checkDuplicate(input: CheckDuplicate) {
     const user = await this.userModel.findOne(input);
-    console.log(user, input);
+    // console.log(user, input);
+    console.log(input);
     if (user) {
       return true;
     } else {
       return false;
     }
   }
-  async getAllGoals(email: string) {
+  async getAllGoalIds(email: string) {
     const user = await this.userModel.findOne({ email });
     const goals = user.get('goal');
     return goals;

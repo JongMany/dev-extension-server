@@ -2,7 +2,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 
-const whiteList = ['http://localhost:3000'];
+import { json } from 'express';
+
+const whiteList = ['http://localhost:3000', '*'];
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
@@ -17,9 +19,12 @@ async function bootstrap() {
     }, */
     // origin: '*',
     credentials: true,
-    // allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+    allowedHeaders:
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization',
   });
   app.use(cookieParser());
+  app.use(json());
+
   await app.listen(8080);
 }
 bootstrap();

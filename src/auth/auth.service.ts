@@ -22,7 +22,7 @@ export class AuthService {
 
     if (user && (await bcrypt.compare(password, user.password))) {
       // 유저 토큰 생성 (Secret + Payload)
-      const accessToken = this.getAccessToken(signinDto);
+      const accessToken = await this.getAccessToken(signinDto);
       // console.log('accessToken', accessToken);
 
       return {
@@ -50,7 +50,7 @@ export class AuthService {
     const payload = { id: email };
     const accessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
-      expiresIn: '1m',
+      expiresIn: '5m',
     });
     const user = await this.userRepository.updateAccessToken(
       email,

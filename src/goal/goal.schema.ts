@@ -4,16 +4,25 @@ import { Document } from 'mongoose';
 @Schema()
 export class Goal extends Document {
   @Prop({ required: true })
-  date: Date;
+  dueDate: Date;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
+  createdAt: Date;
+
+  @Prop({ required: true })
   projectName: string;
 
   @Prop({ required: true })
-  description: string;
+  task: string;
 
   @Prop({ required: true })
   owner: string;
+
+  @Prop({ required: true })
+  email: string;
+
+  @Prop({ required: true })
+  isCompleted: boolean;
 }
 
 export const GoalSchema = SchemaFactory.createForClass(Goal);

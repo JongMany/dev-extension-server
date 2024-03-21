@@ -3,6 +3,7 @@ import {
   Controller,
   HttpStatus,
   Post,
+  Req,
   Res,
   UseGuards,
   ValidationPipe,
@@ -13,11 +14,13 @@ import { AuthService } from 'src/auth/auth.service';
 import {
   CheckApiKeyDuplicateDto,
   CheckEmailDuplicateDto,
+  // CheckEmailDuplicateDto,
   CheckNicknameDuplicateDto,
 } from 'src/auth/dto/checkDuplicate.dto';
-import { RefreshRequestDto } from 'src/auth/dto/refresh.dto';
+// import { RefreshRequestDto } from 'src/auth/dto/refresh.dto';
 import { SigninDto } from 'src/auth/dto/signin.dto';
 import { SignupDto } from 'src/auth/dto/signup.dto';
+import { JwtDto } from 'src/types/jwtDto.types';
 
 @Controller('auth')
 export class AuthController {
@@ -47,12 +50,15 @@ export class AuthController {
   }
 
   @Post('/duplicate-check/email')
+  // @UseGuards(AuthGuard('access'))
   async checkDuplicateEmail(
-    @Body(ValidationPipe) checkDuplicateDto: CheckEmailDuplicateDto,
+    @Body() checkEmailDuplicateDto: CheckEmailDuplicateDto,
     @Res() res: Response,
   ) {
-    const { email } = checkDuplicateDto;
+    const { email } = checkEmailDuplicateDto;
+    console.log(email);
     const isDuplicate = await this.authService.checkDuplicate({ email });
+
     if (isDuplicate) {
       return res.status(HttpStatus.OK).json({
         message: 'Already exists user',
@@ -109,12 +115,11 @@ export class AuthController {
 
   @UseGuards(AuthGuard('refresh'))
   @Post('/refresh')
-  async restoreAccessToken(
-    @Body() body: RefreshRequestDto,
-    @Res() res: Response,
-  ) {
+  async restoreAccessToken(@Req() req: JwtDto, @Res() res: Response) {
     // const accessToken = await this.authService.getAccessToken(body);
-    const accessToken = await this.authService.getAccessToken(body);
+    const accessToken = await this.authService.getAccessToken({
+      email: req.user.email,
+    });
     return res.status(HttpStatus.OK).json({ accessToken });
   }
 }

@@ -38,7 +38,7 @@ export class User extends Document {
   developTime: Time[];
 
   @Prop({ type: [Types.ObjectId], ref: Goal.name })
-  goal: Goal[];
+  goal: Types.ObjectId[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
