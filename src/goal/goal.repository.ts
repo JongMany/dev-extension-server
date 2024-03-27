@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId, Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateTaskDto } from 'src/goal/dto/createTask.dto';
 import { UpdateTaskDto } from 'src/goal/dto/updateTask.dto';
 import { Goal, GoalDocument } from 'src/goal/goal.schema';
@@ -11,6 +11,7 @@ export class GoalRepository {
   constructor(
     @InjectModel(Goal.name)
     private goalModel: Model<GoalDocument>,
+
     @InjectModel(User.name)
     private userModel: Model<UserDocument>,
   ) {}

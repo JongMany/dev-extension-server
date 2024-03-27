@@ -9,10 +9,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { JwtAcessStrategy } from 'src/auth/jwt-access.strategy';
 import { JwtRefreshStrategy } from 'src/auth/jwt-refresh.strategy';
+import { Profile } from 'src/profile/profile.schema';
+
+import { ProfileModule } from 'src/profile/profile.module';
 
 @Module({
   imports: [
     forwardRef(() => UserModule),
+    forwardRef(() => ProfileModule),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       inject: [ConfigService],
@@ -22,7 +26,10 @@ import { JwtRefreshStrategy } from 'src/auth/jwt-refresh.strategy';
         signOptions: { expiresIn: '1d' },
       }),
     }),
-    MongooseModule.forFeature([{ name: User.name, schema: User }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: User },
+      { name: Profile.name, schema: Profile },
+    ]),
   ],
 
   controllers: [AuthController],

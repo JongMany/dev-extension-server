@@ -14,7 +14,9 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
       passReqToCallback: true,
       jwtFromRequest: ExtractJwt.fromExtractors([
         (req: Request) => {
-          const cookie = req?.cookies?.refreshToken;
+          const cookie = req?.cookies?.refreshToken || req.headers.refreshtoken;
+          console.log('cookie', cookie, req.headers);
+          console.log(cookie);
           return cookie;
         },
       ]),
@@ -23,8 +25,10 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
 
   async validate(request: Request, payload: any) {
     const { id } = payload;
+    console.log('hi', id, payload);
 
-    const refreshToken = request.cookies['refreshToken'];
+    const refreshToken =
+      request.cookies['refreshToken'] || request.headers.refreshtoken;
 
     return this.authService.refreshTokenMatches(refreshToken, id);
   }

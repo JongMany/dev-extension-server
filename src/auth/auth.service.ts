@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { SigninDto } from 'src/auth/dto/signin.dto';
 import { SignupDto } from 'src/auth/dto/signup.dto';
 import { UserRepository } from 'src/user/user.repository';
@@ -7,12 +7,15 @@ import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 import { RefreshRequestDto } from 'src/auth/dto/refresh.dto';
 import { CheckDuplicate } from 'src/auth/dto/checkDuplicate.dto';
+import { ProfileService } from 'src/profile/profile.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userRepository: UserRepository,
     private jwtService: JwtService,
+    @Inject(ProfileService)
+    private profileService: ProfileService,
   ) {}
 
   async signin(signinDto: SigninDto) {
@@ -79,7 +82,14 @@ export class AuthService {
   }
 
   async signup(signupDto: SignupDto) {
-    return this.userRepository.createUser(signupDto);
+    try {
+      const profile = await this.profileService.createProfile(signupDto.email);
+      const user = await this.userRepository.createUser(signupDto, profile._id);
+      await profile.save();
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async refreshTokenMatches(refreshToken: string, email: string) {

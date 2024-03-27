@@ -28,8 +28,19 @@ export class AuthController {
 
   @Post('/signup')
   // signup(@Req() req: Request) {
-  signup(@Body(ValidationPipe) signupDto: SignupDto) {
-    return this.authService.signup(signupDto);
+  async signup(
+    @Body(ValidationPipe) signupDto: SignupDto,
+    @Res() res: Response,
+  ) {
+    console.log('signupDto', signupDto);
+
+    try {
+      await this.authService.signup(signupDto);
+      return res.status(HttpStatus.CREATED).json({ message: 'User created' });
+    } catch (error) {
+      console.log('error', error);
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error);
+    }
   }
 
   @Post('/signin')
@@ -117,6 +128,7 @@ export class AuthController {
   @Post('/refresh')
   async restoreAccessToken(@Req() req: JwtDto, @Res() res: Response) {
     // const accessToken = await this.authService.getAccessToken(body);
+
     const accessToken = await this.authService.getAccessToken({
       email: req.user.email,
     });

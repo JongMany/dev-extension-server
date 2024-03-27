@@ -5,7 +5,7 @@ import { GoalRepository } from 'src/goal/goal.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Goal, GoalSchema } from 'src/goal/goal.schema';
 import { UserModule } from 'src/user/user.module';
-import { UserSchema } from 'src/user/user.schema';
+import { User, UserSchema } from 'src/user/user.schema';
 // import { User, UserSchema } from 'src/user/user.schema';
 
 @Module({
@@ -17,7 +17,7 @@ import { UserSchema } from 'src/user/user.schema';
         schema: GoalSchema,
       },
       {
-        name: 'User',
+        name: User.name,
         schema: UserSchema,
       },
     ]),

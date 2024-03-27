@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TimeModule } from './time/time.module';
 import { CommonModule } from './common/common.module';
 import { GoalModule } from './goal/goal.module';
+import { ProfileModule } from './profile/profile.module';
 import mongoose from 'mongoose';
 
 @Module({
@@ -19,6 +20,7 @@ import mongoose from 'mongoose';
     TimeModule,
     CommonModule,
     GoalModule,
+    ProfileModule,
   ],
   controllers: [],
   providers: [],

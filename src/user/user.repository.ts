@@ -52,7 +52,7 @@ export class UserRepository {
     return await this.userModel.updateOne({ email }, { refreshToken });
   }
 
-  async createUser(signupDto: SignupDto) {
+  async createUser(signupDto: SignupDto, profileId: string) {
     const { nickname, email, apiKey, password } = signupDto;
 
     const salt = await bcrypt.genSalt();
@@ -64,6 +64,7 @@ export class UserRepository {
         email,
         apiKey,
         password: hashedPassword,
+        profile: profileId,
       });
     } catch (err) {
       console.log(err);

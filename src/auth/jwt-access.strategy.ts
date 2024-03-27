@@ -20,6 +20,7 @@ export class JwtAcessStrategy extends PassportStrategy(Strategy, 'access') {
     // console.log('access payload id', payload.id);
     const user: User = await this.userRepository.findUserByEmail(id);
 
+    console.log(id);
     if (!user) {
       return done(new UnauthorizedException(), false);
     }
