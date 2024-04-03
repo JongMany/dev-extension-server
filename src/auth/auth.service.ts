@@ -85,6 +85,7 @@ export class AuthService {
     try {
       const profile = await this.profileService.createProfile(signupDto.email);
       const user = await this.userRepository.createUser(signupDto, profile._id);
+      console.log(profile, user);
       await profile.save();
       return user;
     } catch (error) {

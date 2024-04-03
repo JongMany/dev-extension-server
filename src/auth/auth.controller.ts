@@ -110,6 +110,7 @@ export class AuthController {
     @Res() res: Response,
   ) {
     const { apiKey } = checkDuplicateDto;
+    console.log(apiKey);
     const isDuplicate = await this.authService.checkDuplicate({ apiKey });
     if (isDuplicate) {
       return res.status(HttpStatus.OK).json({

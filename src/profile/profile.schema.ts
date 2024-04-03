@@ -6,20 +6,20 @@ export class Profile extends Document {
   @Prop({ required: true })
   email: string;
 
-  @Prop({ required: true, default: '' })
+  @Prop({ default: '' })
   company: string;
 
-  @Prop({ required: true, default: '' })
+  @Prop({ default: '' })
   address: string;
 
-  @Prop({ required: true, default: [] })
+  @Prop({ default: [] })
   link: string[];
 
-  @Prop({ required: true, default: '' })
+  @Prop({ default: '' })
   instaId: string;
 
-  @Prop({ required: true, default: '' })
-  introduction: boolean;
+  @Prop({ default: '' })
+  introduction: string;
 
   // @Prop({ type: Types.ObjectId, ref: User.name })
   // user: Types.ObjectId;
