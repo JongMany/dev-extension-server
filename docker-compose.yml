@@ -1,0 +1,50 @@
+version: '3.1'
+
+services:
+  backend:
+    build: ./
+    container_name: nestjs_api
+    environment:
+      - PORT=8080
+      # - MONGO_URI=mongodb://mongo_db:27017/?authSource=admin
+      - MONGO_URI=mongodb://devLee:12341234@mongo_db:27017/?authSource=admin
+      - JWT_SECRET=dev
+    ports:
+      - '8080:8080'
+    depends_on:
+      - database
+    # networks:
+    #   - nestjs_network
+
+  database:
+    image: mongo
+    container_name: mongo_db
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: devLee
+      MONGO_INITDB_ROOT_PASSWORD: 12341234
+    volumes:
+      - ~/mongo-storage:/data/db
+    ports:
+      - '27017:27017'
+    # networks:
+    #   - nestjs_network
+#   mongo-express:
+#     image: mongo-express
+#     restart: always
+#     ports:
+#       - 27018:8081
+#     environment:
+#       ME_CONFIG_MONGODB_ADMINUSERNAME: devLee
+#       ME_CONFIG_MONGODB_ADMINPASSWORD: 12341234
+#       ME_CONFIG_MONGODB_URL: mongodb://devLee:12341234@localhost:27017/?authMechanism=DEFAULT
+#     depends_on:
+#       - mongo
+#     networks:
+#       - backend
+
+# networks:
+#   nestjs_network:
+#     driver: bridge
+#     external: true
+#     internal: true
