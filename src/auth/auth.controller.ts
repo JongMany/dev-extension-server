@@ -49,6 +49,8 @@ export class AuthController {
       const user = await this.authService.signin(body);
       if (user) {
         this.authService.setRefreshToken(body, res);
+        console.log(user);
+
         return res.status(HttpStatus.OK).json(user);
       } else {
         return res

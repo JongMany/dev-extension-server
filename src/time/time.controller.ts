@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { SaveTimeDto } from 'src/time/dto/saveTime.dto';
 
@@ -13,5 +13,10 @@ export class TimeController {
     // console.log(saveTimeDto.apiKey);
     console.log(saveTimeDto);
     return res.status(HttpStatus.OK).json({ message: 'success' });
+  }
+
+  @Get('')
+  async getProgrammingTime() {
+    return 'get programming time2';
   }
 }
