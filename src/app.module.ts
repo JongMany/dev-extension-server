@@ -28,6 +28,9 @@ import mongoose from 'mongoose';
 })
 export class AppModule {
   private readonly isDev: boolean = process.env.NODE_ENV === 'development';
+  constructor() {
+    console.log(process.env.MONGO_URI);
+  }
   configure() {
     // mongoose 쿼리 logger
     mongoose.set('debug', this.isDev);
