@@ -22,15 +22,31 @@ jobs:
         run: docker tag nestjs_api jongmany/nestjs_api:latest
       - name: Push to Dockerhub
         run: docker push jongmany/nestjs_api:latest
+  # deploy:
+  #   needs: build
+  #   runs-on: self-hosted
+  #   steps:
+  #     - name: 📩 Pull Docker image
+  #       run: sudo docker pull jongmany/nestjs_api:latest
+  #     - name: ❌ Delete Old docker container
+  #       run: sudo docker rm -f nestjs_api-container || true
+  #     - name: 🏃🏿 Run Docker Container
+  #       run: sudo docker run -d -p 8080:8080 --name nestjs_api-container jongmany/nestjs_api
+  #     - name: ❌ Prune Old image
+  #       run: sudo docker image prune -f
   deploy:
     needs: build
     runs-on: self-hosted
+
     steps:
-      - name: 📩 Pull Docker image
+      - name: Pull Docker Image
         run: sudo docker pull jongmany/nestjs_api:latest
-      - name: ❌ Delete Old docker container
+
+      - name: Delete Old Docker Container
         run: sudo docker rm -f nestjs_api-container || true
-      - name: 🏃🏿 Run Docker Container
-        run: sudo docker run -d -p 8080:8080 --name nestjs_api-container jongmany/nestjs_api
-      - name: ❌ Prune Old image
+
+      - name: Run Docker Container
+        run: sudo docker run -d -p 8080:8080 --name nestjs_api-container jongmany/nestjs_api:latest
+
+      - name: Prune Old Docker Image
         run: sudo docker image prune -f
