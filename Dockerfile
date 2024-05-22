@@ -1,5 +1,4 @@
 # build stage
-# FROM node:18-alpine AS build
 # WORKDIR /usr/src/app
 # COPY package*.json ./
 # RUN npm install
@@ -7,37 +6,14 @@
 # RUN npm run build
 
 # FROM node:20
-# RUN mkdir -p /var/app
-# WORKDIR /var/app
-# COPY . .
-# RUN npm install
-
-# EXPOSE 8080
-# CMD [ "npm", "run", "start:dev" ]
-
-# STEP 1
-# 1
-FROM node:18 AS builder
-# 2
-WORKDIR /app
-# 3
+FROM node:18-alpine AS build
+RUN mkdir -p /var/app
+WORKDIR /var/app
 COPY . .
-# 4
-RUN yarn
-# 5
-RUN yarn build
+RUN npm install
 
-# STEP 2
-#6
-FROM node:8-alpine
-#7
-WORKDIR /app
-#8
-ENV NODE_ENV production
-#9
-COPY --from=builder /app ./
-#10
-CMD ["yarn","start:prod"]
+EXPOSE 8080
+CMD [ "npm", "run", "start:dev" ]
 
 # prod stage
 # FROM node:18-alpine
