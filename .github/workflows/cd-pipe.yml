@@ -2,20 +2,17 @@ name: CD Pipeline
 
 on:
   workflow_run:
-    workflows: ["CI Pipeline"]
+    workflows: ['CI Pipeline']
     types:
-        - completed
+      - completed
 
 jobs:
-
   build:
-
     runs-on: self-hosted
-
     steps:
-    - name: Pull Docker image
-      run: sudo docker pull jongmany/nestjs_api:latest
-    - name: Delete Old docker container
-      run: sudo docker rm -f nestjs_api-container || true
-    - name: Run Docker Container
-      run: sudo docker run -d -p 8080:8080 --name nestjs_api-container jongmany/nestjs_api
+      - name: Pull Docker image
+        run: sudo docker pull jongmany/nestjs_api:latest
+      - name: Delete Old docker container
+        run: sudo docker rm -f nestjs_api-container || true
+      - name: Run Docker Container
+        run: sudo docker run -d -p 8080:8080 --name nestjs_api-container jongmany/nestjs_api
