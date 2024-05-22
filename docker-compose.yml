@@ -7,8 +7,8 @@ services:
     environment:
       - PORT=8080
       # - MONGO_URI=mongodb://mongo_db:27017/?authSource=admin
-      - MONGO_URI=mongodb://devLee:12341234@mongo_db:27017/?authSource=admin
-      # - MONGO_URI=mongodb+srv://devLee:12341234@cluster0.mdts56l.mongodb.net/?retryWrites=true&w=majority
+      # - MONGO_URI=mongodb://devLee:12341234@mongo_db:27017/?authSource=admin
+      - MONGO_URI=mongodb+srv://devLee:12341234@cluster0.mdts56l.mongodb.net/?retryWrites=true&w=majority
       - JWT_SECRET=dev
     ports:
       - '8080:8080'
