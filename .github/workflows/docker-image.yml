@@ -22,6 +22,16 @@ jobs:
         run: docker tag nestjs_api jongmany/nestjs_api:latest
       - name: Push to Dockerhub
         run: docker push jongmany/nestjs_api:latest
+
+      # - uses: actions/checkout@v3
+      # - name: Use Node.js ${{ matrix.node-version }}
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: ${{ matrix.node-version }}
+      #     cache: 'npm'
+      - name: Clean npm cache
+        run: npm cache clean --force
+      - run: npm ci
   deploy:
     needs: build
     runs-on: self-hosted
