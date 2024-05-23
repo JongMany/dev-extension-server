@@ -10,6 +10,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Set working directory
+        run: |
+          mkdir -p /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
+        shell: /bin/bash
+
       - name: Login Dockerhub
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
