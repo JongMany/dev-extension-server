@@ -40,7 +40,7 @@ jobs:
       - name: ❌ Delete Old docker container
         run: sudo docker rm -f nestjs_api-container || true
       - name: 🏃🏿 Run Docker Container
-        run: sudo docker run -d -p 8080:8080 --name nestjs_api-container jongmany/nestjs_api
+        run: sudo docker run -d -p 8080:8080 --name nestjs_api-container jongmany/nestjs_api:latest
       - name: ❌ Prune Old image
         run: sudo docker image prune -f
   # deploy:
