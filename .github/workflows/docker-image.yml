@@ -49,12 +49,17 @@ jobs:
         run: |
           sudo curl -L "https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
-      # - name: deploy
-      #   run: |
-      #     chmod +x ./deploy.sh
-      #     sudo ./deploy.sh
+
       - name: 📩 Pull Docker image
         run: sudo docker pull jongmany/nestjs_api:latest
+
+      - name: Stop existing MongoDB container
+        run: |
+          if [ $(sudo docker ps -q --filter "name=mongo_db" | wc -l) -gt 0 ]; then
+            sudo docker stop mongo_db
+            sudo docker rm mongo_db
+          fi
+
       - name: ❌ Delete Old docker container
         # run: sudo docker rm -f nestjs_api-container || true
         working-directory: /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
