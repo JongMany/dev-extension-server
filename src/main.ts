@@ -8,7 +8,8 @@ const whiteList = ['http://43.203.55.144:80', 'http://localhost:3000', '*'];
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: whiteList,
+    // origin: whiteList,
+    origin: 'http://43.203.55.144:80',
     // origin: true,
     /* (origin, callback) => {
       console.log('origin', origin);
