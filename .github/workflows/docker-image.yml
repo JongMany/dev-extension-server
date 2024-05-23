@@ -15,8 +15,7 @@ jobs:
         #   run: |
         #     sudo mkdir -p /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
         #     sudo chown -R $USER:$USER /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
-
-        shell: bash
+        # shell: bash
 
       - name: Login Dockerhub
         env:
