@@ -2,11 +2,29 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 
-import { json } from 'express';
+import { Request, Response, json } from 'express';
 
 const whiteList = ['http://43.203.55.144', 'http://localhost:3000'];
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // Pre flight request
+  app.use((req: Request, res: Response, next) => {
+    if (req.method === 'OPTIONS') {
+      res.header('Access-Control-Allow-Origin', req.headers.origin);
+      res.header(
+        'Access-Control-Allow-Methods',
+        'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+      );
+      res.header('Access-Control-Allow-Credentials', 'true');
+      res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+      );
+      return res.sendStatus(200);
+    }
+    next();
+  });
+
   app.enableCors({
     // origin: whiteList,
     // origin: whiteList,
