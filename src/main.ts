@@ -4,7 +4,7 @@ import * as cookieParser from 'cookie-parser';
 
 import { json } from 'express';
 
-const whiteList = ['http://localhost:3000', '*'];
+const whiteList = ['http://43.203.55.144', 'http://localhost:3000', '*'];
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
