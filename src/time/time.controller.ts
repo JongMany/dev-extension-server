@@ -17,7 +17,7 @@ export class TimeController {
 
   @Get('')
   async getProgrammingTime() {
-    return 'get programming time1';
+    return 'get programming time12';
   }
   @Get('2')
   async getProgrammingTime2() {
