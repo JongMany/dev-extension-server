@@ -26,7 +26,13 @@ jobs:
   deploy:
     needs: build
     runs-on: self-hosted
+    working-directory: ../..
+
     steps:
+      - name: deploy
+        run: |
+          chmod +x ./deploy.sh
+          sudo ./deploy.sh
       - name: 📩 Pull Docker image
         run: sudo docker pull jongmany/nestjs_api:latest
       - name: ❌ Delete Old docker container
