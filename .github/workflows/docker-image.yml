@@ -14,7 +14,7 @@ jobs:
       - name: Set working directory
         run: |
           mkdir -p /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
-        shell: /bin/bash
+        shell: bash
 
       - name: Login Dockerhub
         env:
