@@ -10,7 +10,8 @@ services:
       # - MONGO_URI=mongodb://devLee:12341234@mongo_db:27017/?authSource=admin
       # - MONGO_URI=mongodb+srv://devLee:12341234@cluster0.mdts56l.mongodb.net/?retryWrites=true&w=majority
       # - MONGO_URI=mongodb+srv://blackberry1114:12341234@cluster0.bbd3cg4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-      - MONGO_URI=mongodb://blackberry1114:12341234@ac-pfnyuqn-shard-00-00.bbd3cg4.mongodb.net:27017,ac-pfnyuqn-shard-00-01.bbd3cg4.mongodb.net:27017,ac-pfnyuqn-shard-00-02.bbd3cg4.mongodb.net:27017/?ssl=true&replicaSet=atlas-m4oj1i-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0
+      # - MONGO_URI=mongodb://blackberry1114:12341234@ac-pfnyuqn-shard-00-00.bbd3cg4.mongodb.net:27017,ac-pfnyuqn-shard-00-01.bbd3cg4.mongodb.net:27017,ac-pfnyuqn-shard-00-02.bbd3cg4.mongodb.net:27017/?ssl=true&replicaSet=atlas-m4oj1i-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0
+      - MONGO_URI=mongodb://devLee:12341234@43.203.82.210:27017/?directConnection=true&authSource=admin&appName=mongosh+2.2.6
       - JWT_SECRET=dev
     ports:
       - '8080:8080'
@@ -24,8 +25,10 @@ services:
     container_name: mongo_db
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: devLee
-      MONGO_INITDB_ROOT_PASSWORD: 12341234
+      # MONGO_INITDB_ROOT_USERNAME: blackberry1114
+      MONGO_INITDB_ROOT_USERNAME: input
+      # MONGO_INITDB_ROOT_PASSWORD: 12341234
+      MONGO_INITDB_ROOT_PASSWORD: input
     volumes:
       - ~/mongo-storage:/data/db
     ports:
