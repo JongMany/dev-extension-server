@@ -28,7 +28,7 @@ jobs:
         # run: docker build -t nestjs_api:latest .
         # working-directory: /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
         # run: docker build -t jongmany/nestjs_api:latest .
-        run: docker build -t nestjs_api .
+        run: docker build -t nestjs_api:latest .
       - name: taging
         # run: docker tag nestjs_api:latest jongmany/nestjs_api:latest
         run: docker tag jongmany/nestjs_api:latest jongmany/nestjs_api:latest
