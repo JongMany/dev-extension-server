@@ -11,10 +11,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set working directory
-        run: |
-          sudo mkdir -p /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
-          sudo chown -R $USER:$USER /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
+        # - name: Set working directory
+        #   run: |
+        #     sudo mkdir -p /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
+        #     sudo chown -R $USER:$USER /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
 
         shell: bash
 
@@ -27,7 +27,7 @@ jobs:
       - name: Build Docker Image
         # run: docker build -t nestjs_api .
         # run: docker build -t nestjs_api:latest .
-        working-directory: /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
+        # working-directory: /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
         run: docker build -t jongmany/nestjs_api:latest .
       - name: taging
         # run: docker tag nestjs_api:latest jongmany/nestjs_api:latest
@@ -41,6 +41,15 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
       # - name: deploy
       #   run: |
       #     chmod +x ./deploy.sh
