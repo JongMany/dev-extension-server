@@ -31,7 +31,7 @@ jobs:
         run: docker build -t nestjs_api .
       - name: taging
         # run: docker tag nestjs_api:latest jongmany/nestjs_api:latest
-        run: docker tag nestjs_api jongmany/nestjs_api:latest
+        run: docker tag nestjs_api:latest jongmany/nestjs_api:latest
 
       - name: Push to Dockerhub
         run: docker push jongmany/nestjs_api:latest
