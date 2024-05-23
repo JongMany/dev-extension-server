@@ -25,10 +25,10 @@ services:
     container_name: mongo_db
     restart: always
     environment:
-      # MONGO_INITDB_ROOT_USERNAME: blackberry1114
-      MONGO_INITDB_ROOT_USERNAME: input
-      # MONGO_INITDB_ROOT_PASSWORD: 12341234
-      MONGO_INITDB_ROOT_PASSWORD: input
+      MONGO_INITDB_ROOT_USERNAME: devLee
+      # MONGO_INITDB_ROOT_USERNAME: input
+      MONGO_INITDB_ROOT_PASSWORD: 12341234
+      # MONGO_INITDB_ROOT_PASSWORD: input
     volumes:
       - ~/mongo-storage:/data/db
     ports:
