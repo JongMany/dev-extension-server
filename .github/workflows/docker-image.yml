@@ -17,7 +17,8 @@ jobs:
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
       - name: Build Docker Image
-        run: docker build -t nestjs_api .
+        # run: docker build -t nestjs_api .
+        run: docker build -t nestjs_api:latest .
       - name: taging
         run: docker tag nestjs_api:latest jongmany/nestjs_api:latest
       - name: Push to Dockerhub
@@ -26,9 +27,6 @@ jobs:
   deploy:
     needs: build
     runs-on: self-hosted
-    defaults:
-      run:
-        working-directory: ../..
 
     steps:
       # - name: deploy
@@ -38,10 +36,12 @@ jobs:
       - name: 📩 Pull Docker image
         run: sudo docker pull jongmany/nestjs_api:latest
       - name: ❌ Delete Old docker container
-        run: sudo docker rm -f nestjs_api-container || true
+        # run: sudo docker rm -f nestjs_api-container || true
+        run: sudo docker-compose down || true
       - name: 🏃🏿 Run Docker Container
         # run: sudo docker run -d -p 8080:8080 --name nestjs_api-container jongmany/nestjs_api:latest
-        run: sudo docker-compose up -d -p 8080:8080 --name nestjs_api-container jongmany/nestjs_api:latest
+        run: sudo docker-compse up -d
+        # run: sudo docker-compose up -d -p 8080:8080 --name nestjs_api-container jongmany/nestjs_api:latest
       - name: ❌ Prune Old image
         run: sudo docker image prune -f
   # deploy:
