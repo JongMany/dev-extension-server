@@ -8,8 +8,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - run: ls -al
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
         # - name: Set working directory
         #   run: |
