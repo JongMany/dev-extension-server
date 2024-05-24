@@ -20,6 +20,10 @@ jobs:
         #     sudo chown -R $USER:$USER /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
         # shell: bash
 
+      # 체크아웃된 커밋 해시를 출력하는 단계
+      - name: Print Git Commit Hash
+        run: git log -1 --pretty=format:"%H"
+
       - name: Login Dockerhub
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
