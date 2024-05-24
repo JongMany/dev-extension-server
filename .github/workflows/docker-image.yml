@@ -12,7 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # 최신 코드 반영?
 
         # - name: Set working directory
         #   run: |
@@ -32,7 +32,7 @@ jobs:
         # working-directory: /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
         # run: docker build -t jongmany/nestjs_api:latest .
         run: docker build --no-cache -t jongmany/nestjs_api:latest .
-      - name: taging
+      - name: Tag Docker Image
         run: docker tag jongmany/nestjs_api:latest jongmany/nestjs_api:latest
         # run: docker tag nestjs_api:latest jongmany/nestjs_api:latest
 
