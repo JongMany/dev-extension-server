@@ -75,7 +75,7 @@ jobs:
       - name: 🏃🏿 Run Docker Container
         # run: sudo docker run -d -p 8080:8080 --name nestjs_api-container jongmany/nestjs_api:latest
         working-directory: /home/ubuntu/actions-runner/_work/dev-extension-server/dev-extension-server
-        run: sudo docker-compose up -d
+        run: sudo docker-compose up -d --force-recreate
         # run: sudo docker-compose up -d -p 8080:8080 --name nestjs_api-container jongmany/nestjs_api:latest
       - name: ❌ Prune Old image
         run: sudo docker image prune -f
