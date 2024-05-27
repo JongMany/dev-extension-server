@@ -35,6 +35,7 @@
     "config": "^3.3.11",
     "cookie-parser": "^1.4.6",
     "cpx": "^1.5.0",
+    "date-fns": "^3.6.0",
     "js-yaml": "^4.1.0",
     "mongodb": "^6.6.2",
     "mongoose": "^8.2.0",

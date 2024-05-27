@@ -77,4 +77,11 @@ export class UserRepository {
     // const user = new this.userModel({ nickname, email, apiKey, password });
     // return user.save();
   }
+
+  async saveProgrammingTime(apiKey: string, timeModel: any) {
+    return await this.userModel.updateOne(
+      { apiKey },
+      { $push: { developTime: timeModel._id } },
+    );
+  }
 }

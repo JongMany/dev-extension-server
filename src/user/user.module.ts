@@ -6,10 +6,12 @@ import { UserService } from './user.service';
 import { UserRepository } from 'src/user/user.repository';
 
 import { ProfileModule } from 'src/profile/profile.module';
+import { TimeModule } from 'src/time/time.module';
 
 @Module({
   imports: [
     forwardRef(() => ProfileModule),
+    forwardRef(() => TimeModule),
     MongooseModule.forFeature([
       {
         name: User.name,
