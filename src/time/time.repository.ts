@@ -14,7 +14,7 @@ export class TimeRepository {
 
   async saveProgrammingTime(apiKey: string, payload: TimePayload) {
     try {
-      const programDay = format(payload.currentTime, 'yyyy-MM-dd');
+      const programDay = format(payload.currentTime, 'yyyy/MM/dd');
       const time = new this.timeModel({
         apiKey,
         programmingDate: payload.currentTime,
@@ -24,7 +24,7 @@ export class TimeRepository {
         fileName: payload.fileName,
         project: payload.docs,
       });
-      console.log('time', time);
+      console.log('time', time, programDay);
       const tm = await time.save();
       console.log('tm', tm);
       return time;
