@@ -1,4 +1,13 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Res,
+} from '@nestjs/common';
+
 import { Response } from 'express';
 
 import { SaveTimeDto } from 'src/time/dto/saveTime.dto';
@@ -41,8 +50,26 @@ export class TimeController {
   async getProgrammingTime() {
     return 'get programming time123';
   }
-  @Get('2')
-  async getProgrammingTime2() {
-    return 'get programming time112';
+  @Get('from/:from/to/:to')
+  async getProgrammingTime2(
+    @Param('from') from: string,
+    @Param('to') to: string,
+    @Res() res: Response,
+  ) {
+    // console.log('from', from, 'to', to);
+    try {
+      const result = await this.timeService.getTimesDuringPeriod([from, to]);
+      return res.status(HttpStatus.OK).json({ data: result });
+      // console.log(result);
+      // return result;
+    } catch (error) {
+      // console.log(error);
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: 'error' });
+    }
+
+    // console.log(dates);
+    // return `from ${from} to ${to}`;
   }
 }

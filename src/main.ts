@@ -87,8 +87,8 @@ async function bootstrap() {
 
   // Logging
   app.use((req: Request, res: Response, next) => {
-    console.log(`Request from origin: ${req.headers.origin}`);
-    console.log(`Request method: ${req.method}`);
+    // console.log(`Request from origin: ${req.headers.origin}`);
+    // console.log(`Request method: ${req.method}`);
     next();
   });
 
