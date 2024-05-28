@@ -31,6 +31,7 @@ export class TimeRepository {
       // return time;
     } catch (err) {
       console.log('error', err);
+      throw new Error(err);
     }
   }
 }
