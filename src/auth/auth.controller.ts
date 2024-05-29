@@ -131,6 +131,7 @@ export class AuthController {
   @Post('/refresh')
   async restoreAccessToken(@Req() req: JwtDto, @Res() res: Response) {
     // const accessToken = await this.authService.getAccessToken(body);
+    console.log('refreshToken', req.user);
 
     const accessToken = await this.authService.getAccessToken({
       email: req.user.email,

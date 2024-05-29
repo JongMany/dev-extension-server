@@ -31,13 +31,13 @@ export class TimeRepository {
         fileName: payload.fileName,
         project: payload.docs,
       });
-      console.log('time', time, programDay);
+      // console.log('time', time, payload);
       const tm = await time.save();
       console.log('tm', tm);
-      return time;
+      return tm;
       // return time;
     } catch (err) {
-      console.log('error', err);
+      console.log('save time error', err);
       throw new Error(err);
     }
   }

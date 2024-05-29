@@ -4,7 +4,11 @@ import * as cookieParser from 'cookie-parser';
 
 import { Request, Response, json } from 'express';
 
-const whiteList = ['http://43.203.55.144', 'http://localhost:3000'];
+const whiteList = [
+  'http://43.203.55.144',
+  'http://127.0.0.1:3000',
+  'http://localhost:3000',
+];
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // // Pre flight request
@@ -53,6 +57,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: (origin, callback) => {
+      console.log(origin, whiteList);
       if (!origin || whiteList.indexOf(origin) !== -1) {
         callback(null, true);
       } else {

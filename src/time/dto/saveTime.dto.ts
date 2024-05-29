@@ -5,7 +5,6 @@ export class SaveTimeDto {
   @MinLength(8)
   @MaxLength(20)
   apiKey: string;
-
   payload: TimePayload;
 }
 
