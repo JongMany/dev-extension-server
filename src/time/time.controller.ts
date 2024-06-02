@@ -76,4 +76,31 @@ export class TimeController {
     // console.log(dates);
     // return `from ${from} to ${to}`;
   }
+
+  @Get('/overall/:email/from/:from/to/:to')
+  async getProgrammingData(
+    @Param('email') email: string,
+    @Param('from') from: string,
+    @Param('to') to: string,
+    @Res() res: Response,
+  ) {
+    // console.log('from', from, 'to', to);
+    try {
+      const result = await this.timeService.getProgrammingDataDuringPeriod(
+        email,
+        [from, to],
+      );
+      return res.status(HttpStatus.OK).json({ data: result });
+      // console.log(result);
+      // return result;
+    } catch (error) {
+      // console.log(error);
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: 'error' });
+    }
+
+    // console.log(dates);
+    // return `from ${from} to ${to}`;
+  }
 }
