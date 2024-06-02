@@ -66,6 +66,45 @@ export class TimeService {
       console.log(err);
     }
   }
+
+  async getProgrammingDataDuringPeriod(
+    email: string,
+    [from, to]: [string, string],
+  ) {
+    try {
+      const userApiKey = await this.userRepository.getApiKeyByEmail(email);
+      if (!userApiKey) {
+        return [];
+      }
+      const allDates = eachDayOfInterval({ start: from, end: to });
+      const dates = allDates.map((date) => format(date, 'yyyy/MM/dd'));
+
+      const times = await this.timeRepository.getTimeDuringPeriod(
+        [from, to],
+        userApiKey,
+      );
+      // console.log('getTime', userApiKey, dates, times);
+      // times.reduce((acc, cur) => {
+      //   const day = format(cur.programDay, "yyyy/MM/dd");
+      //   if(!acc[day] {
+      //     acc[day] = cur.programDuration;
+      //   }) else {
+
+      //   }
+      //   return acc;
+      // }, {});
+      return times.map((time) => ({
+        fileName: time.fileName,
+        programDuration: time.programDuration,
+        programLanguage: time.programLanguage,
+        project: time.project,
+        programDay: time.programDay,
+        programmingTime: time.programmingDate,
+      }));
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 type TimeMap = {
