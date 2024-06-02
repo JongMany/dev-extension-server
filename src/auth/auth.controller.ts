@@ -20,6 +20,9 @@ import {
 // import { RefreshRequestDto } from 'src/auth/dto/refresh.dto';
 import { SigninDto } from 'src/auth/dto/signin.dto';
 import { SignupDto } from 'src/auth/dto/signup.dto';
+import { JwtRefreshGuard } from 'src/auth/guards/jwt-refresh.guard';
+import { JwtAcessStrategy } from 'src/auth/jwt-access.strategy';
+import { JwtRefreshStrategy } from 'src/auth/jwt-refresh.strategy';
 import { JwtDto } from 'src/types/jwtDto.types';
 
 @Controller('auth')
@@ -32,7 +35,7 @@ export class AuthController {
     @Body(ValidationPipe) signupDto: SignupDto,
     @Res() res: Response,
   ) {
-    console.log('signupDto', signupDto);
+    // console.log('signupDto', signupDto);
 
     try {
       await this.authService.signup(signupDto);
@@ -48,8 +51,18 @@ export class AuthController {
     try {
       const user = await this.authService.signin(body);
       if (user) {
-        this.authService.setRefreshToken(body, res);
-        console.log(user);
+        const refreshToken = this.authService.getRefreshToken(body);
+        // console.log(user);
+        res.cookie('refreshToken', refreshToken, {
+          httpOnly: true,
+          secure: false,
+          sameSite: 'none',
+          domain:
+            process.env.NODE_ENV === 'production'
+              ? 'http://43.203.82.210:8080'
+              : 'http://localhost:8080',
+          maxAge: 1000 * 60 * 60 * 24 * 14, // 14 days
+        });
 
         return res.status(HttpStatus.OK).json(user);
       } else {
@@ -69,7 +82,7 @@ export class AuthController {
     @Res() res: Response,
   ) {
     const { email } = checkEmailDuplicateDto;
-    console.log(email);
+    // console.log(email);
     const isDuplicate = await this.authService.checkDuplicate({ email });
 
     if (isDuplicate) {
@@ -112,7 +125,7 @@ export class AuthController {
     @Res() res: Response,
   ) {
     const { apiKey } = checkDuplicateDto;
-    console.log(apiKey);
+    // console.log(apiKey);
     const isDuplicate = await this.authService.checkDuplicate({ apiKey });
     if (isDuplicate) {
       return res.status(HttpStatus.OK).json({
@@ -127,12 +140,12 @@ export class AuthController {
     }
   }
 
-  @UseGuards(AuthGuard('refresh'))
+  // @UseGuards(AuthGuard('refresh'))
+  // @UseGuards(AuthGuard('access'))
+  // @UseGuards(JwtAcessStrategy)
+  @UseGuards(JwtRefreshGuard)
   @Post('/refresh')
   async restoreAccessToken(@Req() req: JwtDto, @Res() res: Response) {
-    // const accessToken = await this.authService.getAccessToken(body);
-    console.log('refreshToken', req.user);
-
     const accessToken = await this.authService.getAccessToken({
       email: req.user.email,
     });

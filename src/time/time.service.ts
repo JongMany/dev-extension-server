@@ -25,34 +25,46 @@ export class TimeService {
     }
   }
 
-  async getTimesDuringPeriod([from, to]: [string, string]) {
-    const allDates = eachDayOfInterval({ start: from, end: to });
-    const dates = allDates.map((date) => format(date, 'yyyy/MM/dd'));
-
-    const times = await this.timeRepository.getTimeDuringPeriod(dates);
-    // times.reduce((acc, cur) => {
-    //   const day = format(cur.programDay, "yyyy/MM/dd");
-    //   if(!acc[day] {
-    //     acc[day] = cur.programDuration;
-    //   }) else {
-
-    //   }
-    //   return acc;
-    // }, {});
-    const timeMap: TimeMap = times.reduce((acc, cur) => {
-      const day = format(cur.programDay, 'yyyy/MM/dd');
-      console.log(day);
-      if (!acc[day]) {
-        acc[day] = cur.programDuration;
-      } else {
-        acc[day] += cur.programDuration;
+  async getTimesDuringPeriod(email: string, [from, to]: [string, string]) {
+    try {
+      const userApiKey = await this.userRepository.getApiKeyByEmail(email);
+      if (!userApiKey) {
+        return [];
       }
-      return acc;
-    }, {});
-    return Object.entries(timeMap).map(([date, programDuration]) => ({
-      date,
-      time: programDuration / (1000 * 60),
-    }));
+      const allDates = eachDayOfInterval({ start: from, end: to });
+      const dates = allDates.map((date) => format(date, 'yyyy/MM/dd'));
+
+      const times = await this.timeRepository.getTimeDuringPeriod(
+        [from, to],
+        userApiKey,
+      );
+      // console.log('getTime', userApiKey, dates, times);
+      // times.reduce((acc, cur) => {
+      //   const day = format(cur.programDay, "yyyy/MM/dd");
+      //   if(!acc[day] {
+      //     acc[day] = cur.programDuration;
+      //   }) else {
+
+      //   }
+      //   return acc;
+      // }, {});
+      const timeMap: TimeMap = times.reduce((acc, cur) => {
+        const day = format(cur.programDay, 'yyyy-MM-dd');
+        console.log(day);
+        if (!acc[day]) {
+          acc[day] = cur.programDuration;
+        } else {
+          acc[day] += cur.programDuration;
+        }
+        return acc;
+      }, {});
+      return Object.entries(timeMap).map(([date, programDuration]) => ({
+        date,
+        time: programDuration / (1000 * 60),
+      }));
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
 

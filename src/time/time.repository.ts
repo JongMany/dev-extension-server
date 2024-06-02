@@ -31,21 +31,23 @@ export class TimeRepository {
         fileName: payload.fileName,
         project: payload.docs,
       });
+
       // console.log('time', time, payload);
       const tm = await time.save();
       console.log('tm', tm);
-      return tm;
-      // return time;
+      // return tm;
+      return time;
     } catch (err) {
       console.log('save time error', err);
       throw new Error(err);
     }
   }
 
-  async getTimeDuringPeriod(dates: string[]) {
-    console.log(dates);
+  async getTimeDuringPeriod([from, to]: [string, string], apiKey: string) {
+    console.log([from, to], apiKey);
     const time = await this.timeModel.find({
-      programDay: { $in: dates },
+      programDay: { $gte: from, $lte: to },
+      apiKey,
     });
     console.log('time', time);
     return time;

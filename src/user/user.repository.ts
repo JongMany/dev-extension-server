@@ -84,4 +84,13 @@ export class UserRepository {
       { $push: { developTime: timeModel._id } },
     );
   }
+
+  async getApiKeyByEmail(email: string) {
+    try {
+      const user = await this.findUserByEmail(email);
+      return user.get('apiKey');
+    } catch (err) {
+      return null;
+    }
+  }
 }

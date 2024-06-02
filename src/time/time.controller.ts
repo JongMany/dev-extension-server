@@ -50,15 +50,19 @@ export class TimeController {
   async getProgrammingTime() {
     return 'get programming time123';
   }
-  @Get('from/:from/to/:to')
+  @Get('/:email/from/:from/to/:to')
   async getProgrammingTime2(
+    @Param('email') email: string,
     @Param('from') from: string,
     @Param('to') to: string,
     @Res() res: Response,
   ) {
     // console.log('from', from, 'to', to);
     try {
-      const result = await this.timeService.getTimesDuringPeriod([from, to]);
+      const result = await this.timeService.getTimesDuringPeriod(email, [
+        from,
+        to,
+      ]);
       return res.status(HttpStatus.OK).json({ data: result });
       // console.log(result);
       // return result;

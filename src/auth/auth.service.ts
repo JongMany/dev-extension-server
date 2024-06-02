@@ -54,11 +54,13 @@ export class AuthService {
     const accessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
       expiresIn: '5m',
+      // expiresIn: '5s',
     });
     const user = await this.userRepository.updateAccessToken(
       email,
       accessToken,
     );
+    console.log('accessToken 발급됨');
 
     if (user) {
       return accessToken;
@@ -68,7 +70,7 @@ export class AuthService {
   }
 
   // refreshToken 발급
-  setRefreshToken(signinDto: SigninDto, res: Response) {
+  getRefreshToken(signinDto: SigninDto) {
     const { email } = signinDto;
     const payload = { id: email };
     const refreshToken = this.jwtService.sign(payload, {
@@ -76,16 +78,26 @@ export class AuthService {
       expiresIn: '2w',
     });
     this.userRepository.updateRefreshToken(email, refreshToken);
+    console.log('refreshToken 발급됨', refreshToken);
 
-    res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: false });
-    return;
+    // res.cookie('refreshToken', refreshToken, {
+    //   httpOnly: true,
+    //   secure: false,
+    //   sameSite: 'none',
+    //   domain:
+    //     process.env.NODE === 'production'
+    //       ? 'http://43.203.82.210:8080'
+    //       : 'http://localhost:8080',
+    //   maxAge: 1000 * 60 * 60 * 24 * 14, // 14 days
+    // });
+    return refreshToken;
   }
 
   async signup(signupDto: SignupDto) {
     try {
       const profile = await this.profileService.createProfile(signupDto.email);
       const user = await this.userRepository.createUser(signupDto, profile._id);
-      console.log(profile, user);
+      // console.log(profile, user);
       await profile.save();
       return user;
     } catch (error) {
