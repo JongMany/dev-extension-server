@@ -52,4 +52,29 @@ export class TimeRepository {
     console.log('time', time);
     return time;
   }
+
+  async getRanking([from, to]: [string, string]) {
+    // console.log(from, to);
+
+    const time = await this.timeModel.aggregate([
+      {
+        $match: {
+          programDay: { $gte: new Date(from), $lte: new Date(to) },
+        },
+      },
+      {
+        $group: {
+          _id: { apiKey: '$apiKey' },
+          totalDuration: { $sum: '$programDuration' },
+        },
+      },
+      {
+        $sort: { totalDuration: -1 },
+      },
+      {
+        $limit: 20,
+      },
+    ]);
+    return time;
+  }
 }

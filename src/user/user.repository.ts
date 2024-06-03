@@ -93,4 +93,15 @@ export class UserRepository {
       return null;
     }
   }
+
+  async getEmailByApiKey(apiKey: string) {
+    try {
+      const user = await this.userModel.findOne({
+        apiKey,
+      });
+      return user.get('email');
+    } catch (err) {
+      return null;
+    }
+  }
 }
