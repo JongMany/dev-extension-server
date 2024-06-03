@@ -107,7 +107,7 @@ export class AuthService {
 
   async refreshTokenMatches(refreshToken: string, email: string) {
     const user = await this.userRepository.findUserByEmail(email);
-
+    // console.log('user', user.refreshToken, 'refresh', refreshToken);
     const isMatches = this.isMatch(refreshToken, user?.refreshToken);
 
     if (isMatches) return user;

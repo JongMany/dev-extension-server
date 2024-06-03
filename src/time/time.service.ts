@@ -118,8 +118,8 @@ export class TimeService {
       return {
         email: user.email,
         nickname: user.nickname,
-        totalDuration: result.totalDuration,
-        rank: result.rank,
+        totalDuration: result?.totalDuration || 0,
+        rank: result?.rank || 0,
       };
       // return times;
     } catch (err) {
