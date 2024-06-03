@@ -149,6 +149,7 @@ export class AuthController {
     const accessToken = await this.authService.getAccessToken({
       email: req.user.email,
     });
+    console.log('accessToken 발급');
     return res.status(HttpStatus.OK).json({ accessToken });
   }
 }
