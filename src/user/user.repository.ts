@@ -99,7 +99,7 @@ export class UserRepository {
       const user = await this.userModel.findOne({
         apiKey,
       });
-      return user.get('email');
+      return { email: user.get('email'), nickname: user.get('nickname') };
     } catch (err) {
       return null;
     }

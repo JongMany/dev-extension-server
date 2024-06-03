@@ -53,6 +53,38 @@ export class TimeRepository {
     return time;
   }
 
+  async getAllRank([from, to]: [string, string]) {
+    const time = await this.timeModel.aggregate([
+      {
+        $match: {
+          programDay: { $gte: new Date(from), $lte: new Date(to) },
+        },
+      },
+      {
+        $group: {
+          _id: { apiKey: '$apiKey' },
+          totalDuration: { $sum: '$programDuration' },
+        },
+      },
+      {
+        $sort: { totalDuration: -1 },
+      },
+      {
+        $setWindowFields: {
+          partitionBy: null, // 전체 집합에 대해 순위를 매깁니다
+          sortBy: { totalDuration: -1 },
+          output: {
+            rank: {
+              $denseRank: {},
+            },
+          },
+        },
+      },
+    ]);
+    console.log(time);
+    return time;
+  }
+
   async getRanking([from, to]: [string, string]) {
     // console.log(from, to);
 
