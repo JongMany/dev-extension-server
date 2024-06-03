@@ -81,7 +81,24 @@ export class TimeController {
   ) {
     try {
       const result = await this.timeService.getRanking([from, to]);
-      console.log(result);
+      // console.log(result);
+      return res.status(HttpStatus.OK).json({ data: result });
+    } catch (error) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: 'error' });
+    }
+  }
+
+  @Get('/myRank/:email/from/:from/to/:to')
+  async findMyRank(
+    @Param('email') email: string,
+    @Param('from') from: string,
+    @Param('to') to: string,
+    @Res() res: Response,
+  ) {
+    try {
+      const result = await this.timeService.findMyRank(email, [from, to]);
       return res.status(HttpStatus.OK).json({ data: result });
     } catch (error) {
       return res

@@ -106,6 +106,27 @@ export class TimeService {
     }
   }
 
+  async findMyRank(email: string, [from, to]: [string, string]) {
+    try {
+      const userApiKey = await this.userRepository.getApiKeyByEmail(email);
+      if (!userApiKey) {
+        return [];
+      }
+      const times = await this.timeRepository.getAllRank([from, to]);
+      const result = times.find((time) => time._id.apiKey === userApiKey);
+      const user = await this.userRepository.getEmailByApiKey(userApiKey);
+      return {
+        email: user.email,
+        nickname: user.nickname,
+        totalDuration: result.totalDuration,
+        rank: result.rank,
+      };
+      // return times;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async getRanking([from, to]: [string, string]) {
     try {
       const times = await this.timeRepository.getRanking([from, to]);
@@ -113,10 +134,12 @@ export class TimeService {
         const user = await this.userRepository.getEmailByApiKey(
           time._id.apiKey,
         );
-        time['user'] = user;
+        time['email'] = user.email;
+        time['nickname'] = user.nickname;
       }
       return times.map((item) => ({
-        user: item['user'],
+        email: item['email'],
+        nickname: item['nickname'],
         totalDuration: item.totalDuration,
       }));
     } catch (err) {
