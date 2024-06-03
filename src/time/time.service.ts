@@ -105,6 +105,24 @@ export class TimeService {
       console.log(err);
     }
   }
+
+  async getRanking([from, to]: [string, string]) {
+    try {
+      const times = await this.timeRepository.getRanking([from, to]);
+      for (const time of times) {
+        const user = await this.userRepository.getEmailByApiKey(
+          time._id.apiKey,
+        );
+        time['user'] = user;
+      }
+      return times.map((item) => ({
+        user: item['user'],
+        totalDuration: item.totalDuration,
+      }));
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 type TimeMap = {
