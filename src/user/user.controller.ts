@@ -1,16 +1,36 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 import { UserService } from 'src/user/user.service';
 
 @Controller('user')
-@UseGuards(AuthGuard('access'))
+// @UseGuards(AuthGuard('access'))
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Get()
-  getRankers() {
-    return 'This will return the rankers';
+  @Get('/nickname/:email')
+  async getUserNickNameByEmail(
+    @Param('email') email: string,
+    @Res() res: Response,
+  ) {
+    try {
+      const nickname = await this.userService.getUserNickNameByEmail(email);
+      if (nickname) {
+        return res.status(200).json({
+          nickname,
+        });
+      }
+      if (!nickname) {
+        return res.status(404).json({
+          error: 'user not found',
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({
+        error: 'error',
+      });
+    }
   }
 
   @Get('/get-apiKey')
