@@ -32,6 +32,13 @@ export class GoalController {
     return res.status(HttpStatus.OK).json({ tasks });
   }
 
+  @Get('/:email')
+  async getGoalByEmail(@Param('email') email: string, @Res() res: Response) {
+    // const { email } = req.user;
+    const tasks = await this.goalService.getAllTasks(email);
+    return res.status(HttpStatus.OK).json({ tasks });
+  }
+
   @Get('/:date')
   getGoalByDate(@Req() req: JwtDto, @Res() res: Response) {
     const { email } = req.user;
