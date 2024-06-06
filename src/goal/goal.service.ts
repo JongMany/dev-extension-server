@@ -27,6 +27,7 @@ export class GoalService {
 
   async updateTask(task: UpdateTaskDto, taskId: string) {
     const updatedTask = await this.goalRepository.updateTask(task, taskId);
+    console.log(updatedTask);
     return updatedTask;
   }
 
